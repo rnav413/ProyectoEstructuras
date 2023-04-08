@@ -11,8 +11,6 @@ function MainPage() {
             <Link to="/perfil" id='logo-perfil'>Logo Perfil</Link>
          
       </nav>
-
-      <h1>Main Page</h1>
       <NuevoComentario/>
     </div>
   );
