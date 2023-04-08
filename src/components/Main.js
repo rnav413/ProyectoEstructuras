@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Main.css"
+import {NuevoComentario} from "./mainAPP";
 
 function MainPage() {
   return (
@@ -12,6 +13,7 @@ function MainPage() {
       </nav>
 
       <h1>Main Page</h1>
+      <NuevoComentario/>
     </div>
   );
 }
