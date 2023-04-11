@@ -74,7 +74,7 @@
   }
   
 
-  button{
+  .boton-inicio{
     background-color: #1a7333;
     color: white;
     border: none;
@@ -87,6 +87,6 @@
     margin-top: 20px;
   }
   
-  button:hover {
+  .boton-inicio:hover {
     background-color: #154924;
   }
