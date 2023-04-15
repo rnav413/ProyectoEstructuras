@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Main.css"
-import {NuevoComentario} from "./mainAPP";
+import {NuevoComentario,MainScroll,Post} from "./mainAPP";
 
 function MainPage() {
   return (
@@ -9,9 +9,9 @@ function MainPage() {
       <nav>
             <Link to="/main">Logo</Link>
             <Link to="/perfil" id='logo-perfil'>Logo Perfil</Link>
-         
       </nav>
-      <NuevoComentario/>
+    <NuevoComentario/>
+    <Post/>
     </div>
   );
 }

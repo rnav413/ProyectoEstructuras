@@ -80,3 +80,19 @@
   .post-button:hover {
     background-color: #449038;
   }
+
+  /* Imagen del botón "Me gusta" */
+.post-like-button {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  margin-right: 8px;
+}
+
+/* Imagen del botón "No me gusta" */
+.post-dislike-button {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  margin-right: 8px;
+}
