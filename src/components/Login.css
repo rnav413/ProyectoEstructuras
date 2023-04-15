@@ -48,6 +48,8 @@
     font-size: 1.5rem;
     border-radius: 5px;
     border: 1px solid #ccc;
+    color: white;
+    background-color: #212121;
   }
   
   .submit-btn,
@@ -77,8 +79,13 @@
     width: 30px;
     margin-right: 10px;
   }
+ 
+  .logo-container{
+    height: 400px;
+    width: 350px;
+  }
 
-  button{
+  .boton-inicio{
     background-color: #1a7333;
     align-self: center;
     color: white;
@@ -88,8 +95,21 @@
     margin-top: 20px;
   }
   
-  button:hover {
+  .boton-inicio:hover {
     background-color: #154924;
     transition: background-color 0.4s ease-in-out;
     cursor: pointer;
+  }
+
+  nav{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    border-bottom: 1px solid #595959;
+
+  }
+
+  #logo-nav{
+    height: 50px;
+    width: 150px;
   }
