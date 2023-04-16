@@ -3,13 +3,14 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {NuevoComentario} from './nuevoComentario';
 import {Container}from './recommended'
 import {Post} from './post';
-import { UserFetchcharacter } from "../../hooks";
+import { UserFetchcharacter,useRickParse } from "../../hooks";
 
 export const MainScroll = () => {
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [newCommentText, setNewCommentText] = useState('');
   const {characters,isLoading} = UserFetchcharacter();
+  const {convertCharacterToArray} = useRickParse()
   
 
 
@@ -26,9 +27,7 @@ export const MainScroll = () => {
     // Si no hay más elementos, debes llamar a setHasMore(false)
   };
 
-  const convertCharacterToArray = (characters) => {
-    return JSON.parse(characters);
-  }
+  
 
 
   if (isLoading) {

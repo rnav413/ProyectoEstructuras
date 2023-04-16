@@ -32,3 +32,43 @@
   ::-webkit-scrollbar {
     display: none;
   }
+  .Card-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* ajusta la altura según tus necesidades */
+  }
+
+  .Button-card-right {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../../assets/SVG/flecha_izuiqerda.svg');
+    background-repeat: no-repeat;
+    background-size:contain;
+    border: none;
+    cursor: pointer;
+    overflow: hidden; /* Oculta el contenido del botón */
+    text-indent: -9999px;
+    background-color:#333;
+    cursor: pointer;
+
+  }
+
+  .Button-card-left {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../../assets/SVG/flecha_izuiqerda.svg');
+    background-repeat: no-repeat;
+    background-size:contain;
+    border: none;
+    cursor: pointer;
+    overflow: hidden; /* Oculta el contenido del botón */
+    text-indent: -9999px;
+    background-color:#333;
+    cursor: pointer;
+    transform: rotate(180deg);
+    justify-content: center;
+  align-items: center;
+
+  }
+

@@ -1,59 +1,61 @@
 import { useState } from 'react';
 import "./recomended.css";
 import {Card} from './Recommended_cards';
+import { UserFetchcharacter, useRickParse} from "../../../hooks";
 
 export const Container = () => {
+  const {characters, isLoading} = UserFetchcharacter();
+  const {convertCharacterToArray} = useRickParse()
 
-    const cardsData = [
-        {
-          profileImage: "https://via.placeholder.com/50",
-          username: "Usuario1",
-          origin: "Origen1"
-        },
-        {
-          profileImage: "https://via.placeholder.com/50",
-          username: "Usuario2",
-          origin: "Origen2"
-        },
-        {
-            profileImage: "https://via.placeholder.com/50",
-            username: "Usuario3",
-            origin: "Origen2"
-          },
-          {
-            profileImage: "https://via.placeholder.com/50",
-            username: "Usuario4",
-            origin: "Origen2"
-          },
+  const [page, setPage] = useState(0);
+  const handleAccept = () => {
+    console.log('se agrego a la persona');
+  }
 
-        // ...
-      ];
+  const handleReject = () => {
+    console.log('Se rechazó la recomendacion de la persona ');
+  }
 
-    const handleAccept = () => {
-        console.log('Se aceptó la solicitud');
-      }
-    
-      const handleReject = () => {
-        console.log('Se rechazó la solicitud');
-      }
+  const pageSize = 4; // Número de personajes por página
 
-      const [scrollPosition, setScrollPosition] = useState(0);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const startIndex = page * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const handlePrevPage = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  }
+
+  const handleNextPage = () => {
+    if (endIndex < convertCharacterToArray(characters).length) {
+      setPage(page + 1);
+    }
+  }
+
   return (
     <div className="post-recomended-container">
-      <div className="recommended-container" onWheel={(e) => setScrollPosition(scrollPosition + e.deltaY)}>
-         
-      {cardsData.map((card, index) => (
-            <Card
-            key={index}
-            profileImage={card.profileImage}
-            username={card.username}
-            origin={card.origin}
+      <div className="recommended-container">
+      <div className='Card-image-container'>
+        <button className='Button-card-left' disabled={page === 0} onClick={handlePrevPage}>Anterior</button>
+        </div>
+        {convertCharacterToArray(characters).slice(startIndex, endIndex).map((character) => (
+          <Card
+            key={character.id}
+            profileImage={character.image}
+            username={character.name}
+            origin={character.origin.name}
             onAccept={handleAccept}
             onReject={handleReject}
           />
-            ))}
-          
-        
+        ))}
+        <div className='Card-image-container'>
+          <button className='Button-card-right' disabled={endIndex >= convertCharacterToArray(characters).length} onClick={handleNextPage}>Siguiente</button>
+        </div>
       </div>
     </div>
   );
