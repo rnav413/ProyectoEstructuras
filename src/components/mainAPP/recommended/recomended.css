@@ -1,0 +1,34 @@
+.post-recomended-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* para mejor rendimiento en dispositivos móviles */
+  flex-direction: row;
+  padding: 16px;
+  max-width: 100vw;
+}
+
+.recommended-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 220px;
+  width: 200;
+  background: #333;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  scroll-snap-align: center;
+  width: max-content;   
+  }
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
