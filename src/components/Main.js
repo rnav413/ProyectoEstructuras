@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./Main.css"
+import "./Main.css";
 import {NuevoComentario,MainScroll,Post} from "./mainAPP";
-import logo_nav from "../assets/SVG/Recurso 3.svg"
-import logo_perfil from "../assets/SVG/Recurso 1.svg"
+import logo_nav from "../assets/SVG/Recurso 3.svg";
+import logo_perfil from "../assets/SVG/Recurso 1.svg";
+import  {UserFetchcharacter} from "../hooks"
+
 
 function MainPage() {
   return (
