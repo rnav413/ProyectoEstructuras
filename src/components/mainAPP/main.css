@@ -60,7 +60,7 @@
   
   .post-button-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 16px;
   }
@@ -80,19 +80,73 @@
   .post-button:hover {
     background-color: #449038;
   }
+  
+  .post-space {
+    width: 726px;
+    height: 167px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    padding: 6px;
+  }
+
+  .post_text{
+    position:top;
+  }
+
+  .reacciones {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #449038;
+  }
 
   /* Imagen del botón "Me gusta" */
-.post-like-button {
-  width: 24px;
-  height: 24px;
+  .like-button{
+  width: 35px;
+  height: 50px;
+  background-image: url('../../assets/png/plumbus_lg.png');
+  background-repeat: no-repeat;
   background-size: cover;
-  margin-right: 8px;
-}
+  border: none;
+  cursor: pointer;
+  overflow: hidden; /* Oculta el contenido del botón */
+  text-indent: -9999px;
+  background-color:#2C2C2C;
+  cursor: pointer;
+  }
+
+  .label_like_count{
+    margin-left: 10px;
+    margin-right: 10px;
+
+  }
 
 /* Imagen del botón "No me gusta" */
 .post-dislike-button {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
+  background-image: url('../../assets/png/DontLike.png');
+  background-repeat: no-repeat;
   background-size: cover;
-  margin-right: 8px;
+  border: none;
+  cursor: pointer;
+  overflow: hidden; /* Oculta el contenido del botón */
+  text-indent: -9999px;
+  background-color:#2C2C2C;
+  cursor: pointer;
+
 }
+
+.label_dislike_count{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+

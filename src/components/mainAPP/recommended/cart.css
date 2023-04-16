@@ -1,0 +1,75 @@
+.card_container {
+    width: 180px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000000;
+    border-radius: 17px;
+    padding: 10px;
+    max-width: 400px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #2C2C2C;
+    margin-left: 20px;
+  }
+  
+  .profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  
+  .profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .username {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .origin {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 22px;
+    /* or 183% */
+    color: #FFFFFF;
+    margin-bottom: 16px;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: px;
+    align-items: center;
+    justify-content: center; 
+  }
+  .add-button,
+  .reject-button {
+    padding: 8px 16px;
+    font-family: 'Inter';
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 420px;
+    cursor: pointer;
+    color: #fff;
+    border: none;
+  }
+  
+  .add-button {
+    
+    background-color: #28a745;
+    
+  }
+  
+  .reject-button {
+    background-color: #B50000;
+
+  }
