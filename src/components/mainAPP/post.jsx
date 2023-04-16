@@ -9,10 +9,10 @@ export const Post = (props) => {
         <div className="post-header">
           <img
             className="post-profile-image"
-            src="https://via.placeholder.com/50"
+            src={props.image}
             alt="Profile"
           />
-          <span className="post-username">Nombre de usuario</span>
+          <span className="post-username">{props.name}</span>
         </div>
 
         <div className="post-textarea-container">

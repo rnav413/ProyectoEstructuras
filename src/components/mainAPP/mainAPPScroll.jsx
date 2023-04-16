@@ -3,19 +3,22 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {NuevoComentario} from './nuevoComentario';
 import {Container}from './recommended'
 import {Post} from './post';
+import { UserFetchcharacter } from "../../hooks";
 
 export const MainScroll = () => {
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [newCommentText, setNewCommentText] = useState('');
+  const {characters,isLoading} = UserFetchcharacter();
+  
 
-  const addComment = () => {
-    const newComment = {
-      id: items.length + 1,
-      texto: newCommentText,
-    };
+
+  const addComment = (newComment) => {
     setItems((prevItems) => [newComment, ...prevItems]);
-    setNewCommentText(''); }
+
+    
+  };
+
 
   const fetchMoreData = () => {
     // Aquí puedes hacer otra petición a tu API para obtener más elementos
@@ -23,25 +26,14 @@ export const MainScroll = () => {
     // Si no hay más elementos, debes llamar a setHasMore(false)
   };
 
-  const comentarios = [
-    { id: 1, texto: 'Comentario 1' },
-    { id: 2, texto: 'Comentario 2' },
-    { id: 3, texto: 'Comentario 3' },
-    { id: 4, texto: 'Comentario 4' },
-    { id: 5, texto: 'Comentario 5' },
-    { id: 6, texto: 'Comentario 6' },
-    { id: 7, texto: 'Comentario 7' },
-    { id: 8, texto: 'Comentario 8' },
-    { id: 9, texto: 'Comentario 9' },
-    { id: 10, texto: 'Comentario 10' },
-    { id: 11, texto: 'Comentario 11' },
-    { id: 12, texto: 'Comentario 12' },
-    // Agregar más comentarios aquí...
-  ];
-  
-  const handleNewCommentChange = (event) => {
-    setNewCommentText(event.target.value);
-  };
+  const convertCharacterToArray = (characters) => {
+    return JSON.parse(characters);
+  }
+
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="main-page">
@@ -54,34 +46,7 @@ export const MainScroll = () => {
           hasMore={hasMore}
 
         >
-          <div className="post-container">
-            <div className="post">
-              <div className="post-header">
-                <img
-                  className="post-profile-image"
-                  src="https://via.placeholder.com/50"
-                  alt="Profile"
-                />
-                <span className="post-username">Nombre de usuario</span>
-              </div>
-
-              <div className="post-textarea-container">
-                <div className="post-textarea">
-                  <textarea
-                    placeholder="¿Qué estás pensando?"
-                    value={newCommentText}
-                    onChange={handleNewCommentChange}
-                  ></textarea>
-                </div>
-              </div>
-
-              <div className="post-button-container">
-                <button className="post-button" onClick={addComment}>
-                  Publicar
-                </button>
-              </div>
-            </div>
-          </div>
+          <NuevoComentario addComment={addComment}/>
 
           <Container/>
 
@@ -89,9 +54,10 @@ export const MainScroll = () => {
             <Post key={item.id} comentario={item.texto} />
           ))}
 
-          {comentarios.map((comentario) => (
-              <Post key={comentario.id} comentario={comentario.texto} />
-            ))}
+          {convertCharacterToArray(characters).map((character) => (
+            <Post key={character.id} name={character.name}  image= {character.image} comentario={character.name} />
+          ))}
+          
         </InfiniteScroll>
       </div>
       <div className="right-column"></div>
