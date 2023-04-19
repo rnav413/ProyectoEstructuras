@@ -18,7 +18,7 @@ html, body {
 
 
 .filter-green{
-  filter: invert(48%) sepia(79%) saturate(400%) hue-rotate(86deg) brightness(118%) contrast(119%);
+  filter: invert(48%) sepia(79%) saturate(400%) hue-rotate(86deg) brightness(78%) contrast(119%);
 }
   
   nav {
@@ -26,13 +26,27 @@ html, body {
   }
   .perfil-body{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
+  .perfil-carta{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    height: 340px;
+    background-color: #2C2C2C;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 80px;
+
+  }
 
   .perfil-container{
-    background-color: red;
+    display: flex;
     align-items: center;
     height: 100%;
     width: 80%;
@@ -49,4 +63,24 @@ html, body {
 
   #logo-perfil {
     float: right;
+  }
+  .perfil-amigos{
+    background-color: #2C2C2C;
+    width: 37%;
+    height: 400px;
+    border-radius: 10px;
+  }
+
+  .perfil-publicaciones{
+    margin-top: 30px;
+    width: 60%;
+    height: 100%;
+    margin-left: 3%;
+    background-color: #2C2C2C;
+    border-radius: 10px;
+  }
+
+  #logo-carta{
+    height: 70%;
+    justify-self: top;
   }
