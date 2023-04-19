@@ -12,15 +12,30 @@ html, body {
 }
 
 .profile-page {
-    background-color: #333;
+    background-color: #212121;
     color: white;
     height: 100vh;}
 
 
-  
+.filter-green{
+  filter: invert(48%) sepia(79%) saturate(400%) hue-rotate(86deg) brightness(118%) contrast(119%);
+}
   
   nav {
     font-size: 1.5rem;
+  }
+  .perfil-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .perfil-container{
+    background-color: red;
+    align-items: center;
+    height: 100%;
+    width: 80%;
   }
   
   a {

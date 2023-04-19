@@ -106,7 +106,7 @@
     position: absolute;
     top: 0;
     border-bottom: 1px solid #595959;
-
+    background-color: #333;
   }
 
   #logo-nav{
