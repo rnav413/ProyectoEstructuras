@@ -4,21 +4,32 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Main from './components/Main';
 import Profile from './components/Profile';
-import {PrivateRoutes} from './components/privateRoutes';
+import {PrivateRoutes} from './privateRoutes';
+import {UserProvider} from '../context/UserProvider'
+
 //import Suggestion from './components/Suggestion';
 
 function App() {
   return (
     <Router>
+      <UserProvider > 
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/main" element={<Main />} />
-        <Route path="/perfil" element={<Profile />} />
-
-
+        <Route path="/main" element={
+          <PrivateRoutes>
+        <Main />
+        </PrivateRoutes>
+        } />
+        <Route path="/perfil" element={
+          <PrivateRoutes>
+        <Profile />
+          </PrivateRoutes>
+        } />
+        
       </Routes>
+      </UserProvider>
     </Router>
   );
 }
