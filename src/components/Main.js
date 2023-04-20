@@ -12,7 +12,7 @@ function MainPage() {
     <div className="main-page">
       <nav className='nav_rick_and_morty'>
           <Link to="/main"><img src= {logo_nav} id='logo-nav'/></Link>
-          <Link to="/perfil" id='logo-perfil'><img src= {logo_perfil} id='logo-nav'/></Link>
+          <Link to="/perfil" id='logo-perfil'><img src= {logo_perfil} id='logo-nav' className='filter-green'/></Link>
       </nav>
       <div className='content'>
         <MainScroll/>  
