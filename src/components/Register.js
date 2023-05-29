@@ -5,13 +5,14 @@ import logo from "../assets/SVG/Recurso 2.svg"
 import logo_nav from "../assets/SVG/Recurso 3.svg"
 import axios from 'axios'
 
+
 function RegisterPage() {
   // agregar codigo registro
   const [formData, setFormData] = useState({usuario:'', email: '', password: '' })
 
   const handleRegister = (event) => {
     event.preventDefault();
-    axios.post('/new', formData).then((res) => {
+    axios.post('https://apiestructuras-production.up.railway.app/api/new', formData).then((res) => {
       console.log(res.data)
     }).catch((err) => {
       console.error(err)
