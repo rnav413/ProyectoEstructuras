@@ -14,7 +14,7 @@ import axios from 'axios';
 function LoginPage() {
   // agregrar login google
 
-  const [username, setUsername] = useState('');
+  const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -26,15 +26,18 @@ function LoginPage() {
   setError('');
 
   try {
-    const response = await axios.get('https://apiestructuras-production.up.railway.app/api/new', { username, password });
+    const response = await axios.post('https://apiestructuras-production.up.railway.app/api/auth/login', { email, password });
     console.log(response.data);
     navigate('/main')
   
   } catch (error) {
-    if (error.response && error.response.data && error.response.data.error) {
-      setError(error.response.data.error);
-    } else {
-      setError('Error en el servidor');
+    console.error(error)
+    if(email == '' || password == ''){
+      setError('Rellene todos los campos')
+    }
+
+    else{
+    setError(error.response.data.msg)
     }
    }
   };
@@ -49,7 +52,7 @@ function LoginPage() {
       
       <form onSubmit={handleLogin}>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <input type="text" name="username" placeholder='Usuario' onChange={(e) => setUsername(e.target.value)}/>
+          <input type="text" name="email" placeholder='Correo' onChange={(e) => setUsername(e.target.value)}/>
           <br />
           <input type="password" name="password" placeholder='Contraseña' onChange={(e) => setPassword(e.target.value)}/>
 

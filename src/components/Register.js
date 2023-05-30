@@ -8,20 +8,39 @@ import { useState } from 'react';
 
 function RegisterPage() {
   // agregar codigo registro
-  const [formData, setFormData] = useState({usuario:'', email: '', password: '' })
+  const [name, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [estado, setEstado] = useState('');
+  const [errorMessage, setErrorMessage] = useState([]);
 
   const handleRegister = (event) => {
     event.preventDefault();
-    axios.post('https://apiestructuras-production.up.railway.app/api/new', formData).then((res) => {
+    const formData = {
+      name,
+      email,
+      password
+    }
+  
+    axios.post('https://apiestructuras-production.up.railway.app/api/auth/registrar', formData).then((res) => {
       console.log(res.data)
-    }).catch((err) => {
-      console.error(err)
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setEstado('Usuario creado exitosamente');
+    }).catch((error) => {
+      if (error.response && error.response.data && error.response.data.errors) {
+        const { errors } = error.response.data;
+        const errorMessages = Object.values(errors).map((fieldError) => fieldError.msg);
+        setErrorMessage(errorMessages);
+        console.log(error)
+      } else {
+        console.error(error);
+        setErrorMessage([error.response.data.msg]);
+      }
     })
+ 
   }
-
-  const handleInputChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
 
   return (
     <div className="register-page">
@@ -31,14 +50,17 @@ function RegisterPage() {
       </div>
       <form onSubmit={handleRegister}>
       <div style={{ display: "flex", flexDirection: "column" }}>
-          <input type="text" name="name" placeholder='Usuario' value={formData.usuario} onChange={handleInputChange}/>
+          <input type="text" name="name" placeholder='Usuario' value={name} onChange={(e) => setUsername(e.target.value)}/>
           <br />
-          <input type="text" name="email" placeholder='Email' value={formData.email} onChange={handleInputChange}/>
+          <input type="text" name="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}/>
           <br />
-          <input type="password" name="password" placeholder='Contraseña' value={formData.password} onChange={handleInputChange}/>
+          <input type="password" name="password" placeholder='Contraseña' value={password} onChange={(e) => setPassword(e.target.value)}/>
         </div>
+        {estado && <p>{estado}</p>}
+        {errorMessage.map((message, index) => (
+          <p key={index}>{message}</p>))}
         <p />
-        <Link to = "/"><button className='boton-inicio' type="submit">Registrarse</button></Link>
+        <button className='boton-inicio' type="submit">Registrarse</button>
         <Link to = "/"><button className='boton-inicio' >Atras</button> </Link>
       </form>
       <p>
