@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import './main.css';
 import { UserContext } from '../../UserContext';
+import axios from 'axios';
 
-
-export const NuevoComentario = ({addComment}) => {
+export const NuevoComentario = () => {
     const [newCommentText, setNewCommentText] = useState('');
     const {userData} = useContext(UserContext)
 
@@ -11,12 +11,18 @@ export const NuevoComentario = ({addComment}) => {
       setNewCommentText(event.target.value);
     };
   
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
-      const newComment = {
-        texto: newCommentText,
-      };
-      addComment(newComment);
+      const newComment =  newCommentText
+     
+      try {
+        console.log(userData.token)
+        const response = await axios.post('https://apiestructuras-production.up.railway.app/api/social/addPublication', {description: newComment}, {headers: {'x-token': userData.token }});
+        console.log(response.data);
+        window.location.reload()
+      } catch (error) {
+        console.error(error)
+      }
       setNewCommentText('');
     };
     return (
@@ -24,7 +30,7 @@ export const NuevoComentario = ({addComment}) => {
             <div className="post">
                 <div className="post-header">
                 <img className="post-profile-image" src="https://via.placeholder.com/50" alt="Profile" />
-                <span className="post-username">{userData.email}</span>
+                <span className="post-username">{userData.name}</span>
                 </div>
                 <form onSubmit={handleSubmit} className='form_agregar_comentario'>
                     <div className="post-textarea-container">
