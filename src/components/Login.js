@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import "./Login.css"
 import googleico from "../assets/google.ico"
 import logo from "../assets/SVG/Recurso 2.svg"
@@ -7,6 +7,7 @@ import logo_nav from "../assets/SVG/Recurso 3.svg"
 import { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from '../UserContext';
 
 
 
@@ -18,6 +19,7 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setUserData } = useContext(UserContext);
  // const history = useHistory();
 
   const handleLogin = async (e) => {
@@ -28,6 +30,7 @@ function LoginPage() {
   try {
     const response = await axios.post('https://apiestructuras-production.up.railway.app/api/auth/login', { email, password });
     console.log(response.data);
+    setUserData({token: response.data.token, email: email, name: response.data.name});
     navigate('/main')
   
   } catch (error) {
