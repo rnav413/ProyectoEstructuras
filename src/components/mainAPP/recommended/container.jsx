@@ -1,11 +1,27 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import "./recomended.css";
 import {Card} from './Recommended_cards';
-import { UserFetchcharacter, useRickParse} from "../../../hooks";
+import axios from 'axios';
+import { UserContext } from '../../../UserContext';
 
 export const Container = () => {
-  const {characters, isLoading} = UserFetchcharacter();
-  const {convertCharacterToArray} = useRickParse()
+
+  const [characters, setCharacters] = useState([]);
+  const { userData } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get('https://apiestructuras-production.up.railway.app/api/user/listarUsuarios', { headers: { 'x-token': userData.token } })
+      .then(response => {
+        setCharacters(response.data.usuarios); 
+        console.log(response.data); // Verify the response data
+        setIsLoading(false)
+      })
+      .catch(error => {
+        console.error('Error al obtener los personajes:', error);
+      });
+  }, []);
+
 
   const [page, setPage] = useState(0);
   const handleAccept = () => {
@@ -18,10 +34,6 @@ export const Container = () => {
 
   const pageSize = 4; // Número de personajes por página
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   const startIndex = page * pageSize;
   const endIndex = startIndex + pageSize;
 
@@ -32,7 +44,7 @@ export const Container = () => {
   }
 
   const handleNextPage = () => {
-    if (endIndex < convertCharacterToArray(characters).length) {
+    if (endIndex < characters.length) {
       setPage(page + 1);
     }
   }
@@ -40,23 +52,28 @@ export const Container = () => {
   return (
     <div className="post-recomended-container">
       <div className="recommended-container">
-      <div className='Card-image-container'>
-        <button className='Button-card-left' disabled={page === 0} onClick={handlePrevPage}>Anterior</button>
-        </div>
-        {convertCharacterToArray(characters).slice(startIndex, endIndex).map((character) => (
-          <Card
-            key={character.id}
-            profileImage={character.image}
-            username={character.name}
-            origin={character.origin.name}
-            onAccept={handleAccept}
-            onReject={handleReject}
-          />
-        ))}
         <div className='Card-image-container'>
-          <button className='Button-card-right' disabled={endIndex >= convertCharacterToArray(characters).length} onClick={handleNextPage}>Siguiente</button>
+          <button className='Button-card-left' disabled={page === 0} onClick={handlePrevPage}>Anterior</button>
+        </div>
+        {isLoading ? (
+          <p>Loading...</p> // Render a loading message while data is being fetched
+        ) : (
+          Array.isArray(characters) && characters.slice(startIndex, endIndex).map(character => (
+            <Card
+              key={character._id}
+              // profileImage={character.image}
+              username={character.name}
+              // origin={character.origin.name}
+              onAccept={handleAccept}
+              onReject={handleReject}
+            />
+          ))
+        )}
+        <div className='Card-image-container'>
+          <button className='Button-card-right' disabled={endIndex >= characters.length} onClick={handleNextPage}>Siguiente</button>
         </div>
       </div>
     </div>
   );
+  
 }
