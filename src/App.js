@@ -5,17 +5,20 @@ import Register from './components/Register';
 import Main from './components/Main';
 import Profile from './components/Profile';
 import {PrivateRoutes} from './components/privateRoutes';
+import { UserContextProvider } from './UserContext'
 //import Suggestion from './components/Suggestion';
 
 function App() {
   return (
     <Router>
+    <UserContextProvider>
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/main" element={<Main />} />
         <Route path="/perfil" element={<Profile />} />
     </Routes>
+    </UserContextProvider>
     </Router>
   );
 }

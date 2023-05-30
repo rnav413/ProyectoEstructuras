@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './main.css';
+import { UserContext } from '../../UserContext';
+
 
 export const NuevoComentario = ({addComment}) => {
     const [newCommentText, setNewCommentText] = useState('');
+    const {userData} = useContext(UserContext)
 
     const handleNewCommentChange = (event) => {
       setNewCommentText(event.target.value);
@@ -11,7 +14,6 @@ export const NuevoComentario = ({addComment}) => {
     const handleSubmit = (event) => {
       event.preventDefault();
       const newComment = {
-        id: Date.now(),
         texto: newCommentText,
       };
       addComment(newComment);
@@ -22,7 +24,7 @@ export const NuevoComentario = ({addComment}) => {
             <div className="post">
                 <div className="post-header">
                 <img className="post-profile-image" src="https://via.placeholder.com/50" alt="Profile" />
-                <span className="post-username">Nombre de usuario</span>
+                <span className="post-username">{userData.email}</span>
                 </div>
                 <form onSubmit={handleSubmit} className='form_agregar_comentario'>
                     <div className="post-textarea-container">
