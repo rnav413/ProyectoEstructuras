@@ -45,7 +45,7 @@ export const MainScroll = () => {
           hasMore={hasMore}
 
         >
-          <NuevoComentario addComment={addComment}/>
+          <NuevoComentario />
 
           <Container/>
 

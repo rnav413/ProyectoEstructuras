@@ -1,10 +1,13 @@
 import React from 'react';
 import "./cart.css";
+import RandomCharacterComponent from '../../../helpers/getRandomCharacter';
 
 export const Card = (props) => {
   return (
     <div className="card_container">
-      <img className="profile-image" src={props.profileImage} alt="Profile" />
+      <div className="profile-image">
+      <RandomCharacterComponent />
+      </div>
       <div className="username">{props.username}</div>
       <div className="origin">{props.origin}</div>
       <div className="button-container">
