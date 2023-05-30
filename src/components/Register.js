@@ -4,7 +4,7 @@ import "./Register.css"
 import logo from "../assets/SVG/Recurso 2.svg"
 import logo_nav from "../assets/SVG/Recurso 3.svg"
 import axios from 'axios'
-
+import { useState } from 'react';
 
 function RegisterPage() {
   // agregar codigo registro

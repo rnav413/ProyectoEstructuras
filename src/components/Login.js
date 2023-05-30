@@ -6,6 +6,8 @@ import logo from "../assets/SVG/Recurso 2.svg"
 import logo_nav from "../assets/SVG/Recurso 3.svg"
 import { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
 
 
 
