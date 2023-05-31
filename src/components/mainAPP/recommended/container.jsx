@@ -38,19 +38,31 @@ export const Container = () => {
       });
   }, []);
   const filteredVisibleCards = friends.map(({ friend }) => friend._id);
+  filteredVisibleCards.push(userData.id)
   const [page, setPage] = useState(0);
 
   const handleAccept = (key) => {
-    console.log('Se agregó a la persona:', key);
-    axios.post('https://apiestructuras-production.up.railway.app/api/social/addFriend', {'id': key}, {headers: { 'x-token': userData.token }})
-    setFriends(prevFriends => prevFriends.filter(({ friend }) => friend._id !== key));
-    setVisibleCards(prevVisibleCards => prevVisibleCards.filter(cardId => cardId !== key));
+    setIsLoading(true); // Establecer isLoading en true para mostrar el mensaje de "Loading"
+
+    setTimeout(() => {
+      console.log('Se agregó a la persona:', key);
+      axios.post('https://apiestructuras-production.up.railway.app/api/social/addFriend', {'id': key}, {headers: { 'x-token': userData.token }})
+        .then(() => {
+          setFriends(prevFriends => prevFriends.filter(({ friend }) => friend._id !== key));
+          setVisibleCards(prevVisibleCards => prevVisibleCards.filter(cardId => cardId !== key));
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error al agregar amigo:', error);
+        });
+    }, 2000); // Esperar 2 segundos antes de ejecutar el código dentro de setTimeout
   }
 
   const handleReject = (key) => {
     console.log('Se rechazó la recomendación de la persona:', key);
      setFriends(prevFriends => prevFriends.filter(({ friend }) => friend._id !== key))
      setVisibleCards(prevVisibleCards => prevVisibleCards.filter(cardId => cardId !== key));
+     window.location.reload()
   }
 
   const pageSize = 4; // Número de personajes por página

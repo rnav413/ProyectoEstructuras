@@ -14,7 +14,6 @@ export const Card = (props) => {
       <div className="origin">Earth (C-137)</div>
       <div className="button-container">
         <button className="add-button " onClick={props.onAccept}>Aceptar</button>
-        <button className="reject-button" onClick={props.onReject}>Rechazar</button>
       </div>
     </div>
   );
