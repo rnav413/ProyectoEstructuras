@@ -8,6 +8,19 @@ html, body {
   height: 100%;
 }
 
+.logout-button {
+  background-color: green;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.logout-button:hover {
+  background-color: #0ae94d;
+}
 
 .main-page {
     background-color: #212121;
