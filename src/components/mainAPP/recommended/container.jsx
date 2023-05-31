@@ -19,7 +19,6 @@ export const Container = () => {
         setCharacters(response.data.usuarios);
         setIsLoading(false);
         setVisibleCards(response.data.usuarios.map(character => character._id));
-        console.log('uno bien')
       }).catch(error => {
         console.error('Error al obtener los personajes:', error);
       });
@@ -44,13 +43,14 @@ export const Container = () => {
   const handleAccept = (key) => {
     console.log('Se agregó a la persona:', key);
     axios.post('https://apiestructuras-production.up.railway.app/api/social/addFriend', {'id': key}, {headers: { 'x-token': userData.token }})
-    setFriends(prevFriends => prevFriends.filter(({ friend }) => friend._id !== key))
-    window.location.reload()
+    setFriends(prevFriends => prevFriends.filter(({ friend }) => friend._id !== key));
+    setVisibleCards(prevVisibleCards => prevVisibleCards.filter(cardId => cardId !== key));
   }
 
   const handleReject = (key) => {
     console.log('Se rechazó la recomendación de la persona:', key);
      setFriends(prevFriends => prevFriends.filter(({ friend }) => friend._id !== key))
+     setVisibleCards(prevVisibleCards => prevVisibleCards.filter(cardId => cardId !== key));
   }
 
   const pageSize = 4; // Número de personajes por página
