@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {NuevoComentario} from './nuevoComentario';
 import {Container}from './recommended'
 import {Post} from './post';
 import { UserFetchcharacter,useRickParse } from "../../hooks";
+import axios from 'axios';
+import { UserContext } from '../../UserContext';
 
 export const MainScroll = () => {
   const [items, setItems] = useState([]);
@@ -11,23 +13,18 @@ export const MainScroll = () => {
   const [newCommentText, setNewCommentText] = useState('');
   const {characters,isLoading} = UserFetchcharacter();
   const {convertCharacterToArray} = useRickParse()
-  
+  const { userData } = useContext(UserContext)
 
 
-  const addComment = (newComment) => {
-    setItems((prevItems) => [newComment, ...prevItems]);
-
-    
-  };
-
-
-  const fetchMoreData = () => {
-    // Aquí puedes hacer otra petición a tu API para obtener más elementos
-    // y añadirlos al estado con setItems
-    // Si no hay más elementos, debes llamar a setHasMore(false)
-  };
-
-  
+  useEffect(() => {
+    axios.post('https://apiestructuras-production.up.railway.app/api/social/getPublicacionesPorId', null ,{headers: {'x-token': userData.token}})
+      .then(response => {
+        console.log('publicaciones',response.data);
+      })
+      .catch(error => {
+        console.error('error en cargar publicaciones',error);
+      });
+  }, []);
 
 
   if (isLoading) {
@@ -41,12 +38,9 @@ export const MainScroll = () => {
       <div className="center-column">
         <InfiniteScroll
           dataLength={items.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-
         >
           <NuevoComentario />
-
+          
           <Container/>
 
           {items.map((item) => (

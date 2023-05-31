@@ -29,8 +29,8 @@ function LoginPage() {
 
   try {
     const response = await axios.post('https://apiestructuras-production.up.railway.app/api/auth/login', { email, password });
-    console.log(response.data);
-    setUserData({token: response.data.token, email: email, name: response.data.name});
+    console.log('response', response.data);
+    setUserData({token: response.data.token, email: email, name: response.data.name, id: response.data.id});
     navigate('/main')
   
   } catch (error) {
