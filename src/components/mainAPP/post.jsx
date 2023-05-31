@@ -1,17 +1,20 @@
 import React from "react";
 import "./main.css";
 import {Reacciones} from "./reacciones"
+import RandomCharacterComponent from '../../helpers/getRandomCharacter';
 
 export const Post = (props) => {
   return (
     <div className="post-container">
       <div className="post">
         <div className="post-header">
-          <img
+          <div
             className="post-profile-image"
-            src={props.image}
+            
             alt="Profile"
-          />
+          > 
+          <RandomCharacterComponent />
+          </div>
           <span className="post-username">{props.name}</span>
         </div>
 
@@ -23,7 +26,7 @@ export const Post = (props) => {
 
         <div className="post-button-container">
           <div className="reacciones">
-          <Reacciones/>
+          <Reacciones likes={props.likes} dislikes={props.dislikes} />
           </div>
         </div>
       </div>

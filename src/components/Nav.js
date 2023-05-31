@@ -11,7 +11,7 @@ function Nav() {
     return (
       <nav className='nav_rick_and_morty'>
         <Link to="/main"><img src={logo_nav} id='logo-nav' /></Link>
-        <button className='logout-boton' onClick={logout}>logout</button>
+        <button className='logout-button' onClick={logout}>logout</button>
         <Link to="/perfil" id='logo-perfil'><img src={logo_perfil} id='logo-nav' className='filter-green' /></Link>
 
       </nav>

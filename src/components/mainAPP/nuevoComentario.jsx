@@ -1,11 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './main.css';
 import { UserContext } from '../../UserContext';
 import axios from 'axios';
+import RandomCharacterComponent from '../../helpers/getRandomCharacter';
+
 
 export const NuevoComentario = () => {
-    const [newCommentText, setNewCommentText] = useState('');
-    const {userData} = useContext(UserContext)
+  const [newCommentText, setNewCommentText] = useState('');
+  const { userData } = useContext(UserContext);
+
 
     const handleNewCommentChange = (event) => {
       setNewCommentText(event.target.value);
@@ -25,11 +28,13 @@ export const NuevoComentario = () => {
       }
       setNewCommentText('');
     };
+
+
     return (
         <div className="post-container">
             <div className="post">
                 <div className="post-header">
-                <img className="post-profile-image" src="https://via.placeholder.com/50" alt="Profile" />
+                <RandomCharacterComponent />
                 <span className="post-username">{userData.name}</span>
                 </div>
                 <form onSubmit={handleSubmit} className='form_agregar_comentario'>

@@ -1,34 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {NuevoComentario} from './nuevoComentario';
 import {Container}from './recommended'
 import {Post} from './post';
 import { UserFetchcharacter,useRickParse } from "../../hooks";
+import axios from 'axios';
+import { UserContext } from '../../UserContext';
 
 export const MainScroll = () => {
   const [items, setItems] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
   const [newCommentText, setNewCommentText] = useState('');
-  const {characters,isLoading} = UserFetchcharacter();
   const {convertCharacterToArray} = useRickParse()
+  const { userData } = useContext(UserContext)
+  const [friends, setFriends] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios.post('https://apiestructuras-production.up.railway.app/api/social/getPublicacionesPorId', null ,{headers: {'x-token': userData.token}})
+      .then(response => {
+        console.log('publicaciones',response.data.publicaciones);
+        setItems(response.data.publicaciones.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)));
+      })
+      .catch(error => {
+        console.error('error en cargar publicaciones',error);
+      });
+  }, []);
+
+  useEffect(() => {
+   
+    axios.post('https://apiestructuras-production.up.railway.app/api/social/getFriends',null, {headers: { 'x-token': userData.token }})
+      .then(response => {
+        const amigos_id = response.data.friends.map(({ friend }) => friend._id);
+        setFriends(amigos_id);
+        setIsLoading(false);
+        console.log('akkk', amigos_id)
+      }).catch(error => {
+        console.error('Error al obtener los personajes:', error);
+        console.error('Request', error.config)
+      });
+  }, []);
+
   
 
+  useEffect(() => {
+    friends.forEach(dato => {
+      axios.post('https://apiestructuras-production.up.railway.app/api/social/getPublicacionesPorId', dato, { headers: { 'x-token': userData.token } })
+        .then(response => {
 
-  const addComment = (newComment) => {
-    setItems((prevItems) => [newComment, ...prevItems]);
+          const nuevosItems = response.data.publicaciones;
 
-    
-  };
+          // Agregar los nuevos datos a items
+          setItems(prevItems => [...prevItems, ...nuevosItems]);
 
-
-  const fetchMoreData = () => {
-    // Aquí puedes hacer otra petición a tu API para obtener más elementos
-    // y añadirlos al estado con setItems
-    // Si no hay más elementos, debes llamar a setHasMore(false)
-  };
+          // Ordenar items después de agregar los nuevos datos
+          setItems(prevItems => prevItems.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)));
+        })
+        .catch(error => {
+          // Manejar errores de las solicitudes
+          console.error('Error en la solicitud:', error);
+        });
+    });
+  }, [friends]);
 
   
-
+  
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -41,21 +76,15 @@ export const MainScroll = () => {
       <div className="center-column">
         <InfiniteScroll
           dataLength={items.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-
         >
-          <NuevoComentario addComment={addComment}/>
-
+          <NuevoComentario />
+          
           <Container/>
 
           {items.map((item) => (
-            <Post key={item.id} comentario={item.texto} />
+            <Post key={item.id} comentario={item.description} name={userData.name} likes={item.likes} dislikes={item.dislikes}/>
           ))}
 
-          {convertCharacterToArray(characters).map((character) => (
-            <Post key={character.id} name={character.name}  image= {character.image} comentario={character.name} />
-          ))}
           
         </InfiniteScroll>
       </div>
