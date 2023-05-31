@@ -14,6 +14,7 @@ export const MainScroll = () => {
   const { userData } = useContext(UserContext)
   const [friends, setFriends] = useState([])
   const [isLoading, setIsLoading] = useState(true);
+  const [usuarios, setUsuarios] = useState([])
 
   useEffect(() => {
     axios.post('https://apiestructuras-production.up.railway.app/api/social/getPublicacionesPorId', null ,{headers: {'x-token': userData.token}})
@@ -31,9 +32,12 @@ export const MainScroll = () => {
     axios.post('https://apiestructuras-production.up.railway.app/api/social/getFriends',null, {headers: { 'x-token': userData.token }})
       .then(response => {
         const amigos_id = response.data.friends.map(({ friend }) => friend._id);
+        console.log('amigos_name', response.data.friends)
         setFriends(amigos_id);
+        const amigos = response.data.friends
+        setUsuarios(amigos.map(({ friend }) => ({ id: friend._id, usuario: friend.name })))
         setIsLoading(false);
-        console.log('akkk', amigos_id)
+        console.log('amigos_id',amigos_id)
       }).catch(error => {
         console.error('Error al obtener los personajes:', error);
         console.error('Request', error.config)
@@ -43,24 +47,40 @@ export const MainScroll = () => {
   
 
   useEffect(() => {
-    friends.forEach(dato => {
-      axios.post('https://apiestructuras-production.up.railway.app/api/social/getPublicacionesPorId', dato, { headers: { 'x-token': userData.token } })
-        .then(response => {
+  console.log('inicial', items)
+  console.log('amiggggos', friends)
+  
+  friends.forEach(dato => {
+    console.log('datozzz', dato)
+    console.log('aprobado', !(dato.length === 0))
+    if(!(dato.length === 0)){
+      console.log('jeje')
+    axios.post('https://apiestructuras-production.up.railway.app/api/social/getPublicacionesPorId', {id:dato}, { headers: { 'x-token': userData.token } })
+      .then(response => {
+        const nuevosItems = response.data.publicaciones;
+        console.log('nuevos items', nuevosItems)
 
-          const nuevosItems = response.data.publicaciones;
+        // Filter out the new items that already exist in the current items state
+        const filteredNewItems = nuevosItems.filter(item => !items.some(existingItem => existingItem.id === item.id));
+        console.log('filtro', filteredNewItems)
 
-          // Agregar los nuevos datos a items
-          setItems(prevItems => [...prevItems, ...nuevosItems]);
+        // Add the filtered new items to the uniqueNewItems array
+        
+        setItems(prevItems => [...prevItems, ...filteredNewItems]);
 
-          // Ordenar items después de agregar los nuevos datos
-          setItems(prevItems => prevItems.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)));
-        })
-        .catch(error => {
-          // Manejar errores de las solicitudes
-          console.error('Error en la solicitud:', error);
-        });
-    });
-  }, [friends]);
+        // Sort the uniqueNewItems array based on the fecha property
+        setItems(prevItems => prevItems.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)));
+
+        // Update the items state by merging the current items with the uniqueNewItems array
+        console.log('mumumu',items)
+      })
+      .catch(error => {
+        // Handle request errors
+        console.error('Error en la solicitud:', error);
+      });}
+  });
+}, [friends]);
+
 
   
   
@@ -68,6 +88,23 @@ export const MainScroll = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  
+  function eliminarDuplicadosPorId(arr) {
+    const ids = new Set(); // Set para almacenar los IDs únicos
+    const result = []; // Array para almacenar los elementos únicos
+  
+    for (const obj of arr) {
+      if (!ids.has(obj.id)) {
+        // Si el ID no está en el Set, agrega el objeto al resultado y añade el ID al Set
+        result.push(obj);
+        ids.add(obj.id);
+      }
+    }
+    result.sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+    return result;
+  }
+
 
   return (
     <div className="main-page">
@@ -81,9 +118,23 @@ export const MainScroll = () => {
           
           <Container/>
 
-          {items.map((item) => (
-            <Post key={item.id} comentario={item.description} name={userData.name} likes={item.likes} dislikes={item.dislikes}/>
-          ))}
+          {eliminarDuplicadosPorId(items).map((item) => {
+            //console.log('todos los items', items);
+            //console.log('usuario item',item.usuario)
+            const usuario = usuarios.find(user => user.id === item.usuario._id);
+            const nombreUsuario = usuario ? usuario.usuario : userData.name;
+
+            return (
+              <Post
+                key={item.id}
+                comentario={item.description}
+                name={nombreUsuario}
+                likes={item.likes}
+                dislikes={item.dislikes}
+              />
+            );
+          })}
+
 
           
         </InfiniteScroll>
